@@ -10,7 +10,7 @@
 ## **PROJETO**
 Desenvolvemos um formulário de cadastro de uma e-commerce. 
 
-Para esse desenvolvimento foi adotado a linguagem de marcação HTML, que tem como função estruturar uma página web e seu conteúdo. O HTML não é uma linguagem de programação, é uma linguagem usada para definir a estrutura do conteúdo. HTML consiste de uma série de elementos, que é utilizado para delimitar ou agrupar diferentes partes do coteúdo para que ele apareça ou atue de determinada maneira. 
+Para esse desenvolvimento foi adotado a linguagem de marcação HTML, que tem como função estruturar uma página web e seu conteúdo. O HTML não é uma linguagem de programação, é uma linguagem usada para definir a estrutura do conteúdo. HTML consiste de uma série de elementos, que é utilizado para delimitar ou agrupar diferentes partes do conteúdo para que ele apareça ou atue de determinada maneira. 
 
 Também foi utilizado JavaScript, uma linguagem de programação dinâmica cheia de recursos que quando aplicada em um documento HTML, pode fornecer interatividade dinâmica em sites. 
 
