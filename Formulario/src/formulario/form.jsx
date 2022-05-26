@@ -1,13 +1,38 @@
 import { useState } from "react";
+import axios from "axios";
 import { obterDadosCep } from "./funcoes_form";
 
 export function Formulario() {
+  async function cadastrar(){
+    let nome = document.querySelector("#name").value
+    let sobrenome = document.querySelector("#sobrenome").value
+    let cpf = document.querySelector("#CPF").value
+    let genero = document.querySelector("#genero").value
+    let telefone = document.querySelector("#tel").value
+    let cep = document.querySelector("#CEP").value
+    let rua = document.querySelector("#Rua").value
+    let bairro = document.querySelector("#Bairro").value
+    let cidade = document.querySelector("#Cidade").value
+    let numero= document.querySelector("#numero").value
+    let email = document.querySelector('#mail').value
+    let senha = document.querySelector('#Senha').value
+    let date= document.querySelector("#date").value
+    
+    const user = {nome, sobrenome, cpf, genero, telefone, cep, rua, bairro, cidade, numero, email, senha, date}
+    const response = await axios.post("http://localhost:7000/user", user)
+    if (response.status==201){
+      return response.status
+    }else{
+      return null
+    }
+  }
+
   const [valorInputCEP, setValorInputCEP] = useState();
   function mudancaChange(event) {
     setValorInputCEP(event.target.value);
   }
   return (
-    <form action='www.google.com' method='post'>
+    <form>
       <div
         className='container-fluid'
         style={{
@@ -45,6 +70,7 @@ export function Formulario() {
           <div>
             <label htmlFor='name'>Gênero:</label>
             <select
+              id='genero'
               className='form-control'
               style={{ marginBottom: 8, marginTop: -5 }}
             >
@@ -96,6 +122,14 @@ export function Formulario() {
             className='form-control'
             style={{ marginBottom: 8, marginTop: -5 }}
           />
+          <label htmlFor='Num'>Número:</label>
+          <input
+            type='number'
+            id='numero'
+            className='form-control'
+            placeholder='Número'
+            style={{ marginBottom: 8, marginTop: -5 }}
+          />
           <label htmlFor='mail'>E-mail:</label>
           <input
             type='email'
@@ -116,15 +150,8 @@ export function Formulario() {
             Data de nascimento:
           </label>
           <input type='date' id='date' /> <br />
-          <input
-            type='checkbox'
-            id='Sim'
-            value='1'
-            style={{ marginBottom: 15, marginTop: -5 }}
-          />
-          Li e concordo com os termos de uso
           <div className='button' style={{ marginBottom: 10 }}>
-            <button type='submit' className='btn btn-primary'>
+            <button  onClick={async() => {await cadastrar()=="201"}} type='submit' className='btn btn-primary'>
               Enviar Formulário
             </button>
             <button type='reset' className='btn btn-danger'>
