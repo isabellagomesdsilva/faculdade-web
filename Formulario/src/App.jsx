@@ -225,14 +225,14 @@ function App() {
                         >
                           <option>Escolha uma opção</option>
                           <option
-                            select={
+                            selected={
                               userDetails.genero == "Feminino" ? "selected" : ""
                             }
                           >
                             Feminino
                           </option>
                           <option
-                            select={
+                            selected={
                               userDetails.genero == "Masculino"
                                 ? "selected"
                                 : ""
