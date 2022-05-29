@@ -21,7 +21,7 @@ export function obterDadosCep(cep) {
         }
     }
     xhr.open("GET", `https://viacep.com.br/ws/${cep}/json/`, true);
-    xhr.setRequestHeader("Accept", "*");
+    xhr.setRequestHeader('Accept', '*\/*');
     xhr.send(null);
 }
 
