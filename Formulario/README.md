@@ -1,5 +1,9 @@
 # **Desenvolvimento de Sistema Web Frontend e Backend**
 
+## **URL's GIT**
+- Link do txt URL's (https://github.com/isabellagomesdsilva/faculdade-web/blob/main/Formulario/url.md)
+- Link do txt Integrantes (https://github.com/isabellagomesdsilva/faculdade-web/blob/main/Formulario/integrantes.md)
+
 ## **PROJETO**
 Desenvolvemos um formulário de cadastro de uma e-commerce. 
 
