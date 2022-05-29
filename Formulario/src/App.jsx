@@ -40,6 +40,7 @@ function App() {
   const [valorInputCEP, setValorInputCEP] = useState();
   function mudancaChange(event) {
     setValorInputCEP(event.target.value);
+    userDetails.cep = event.target.value
   }
 
   const putUser = async function () {
@@ -78,7 +79,7 @@ function App() {
         src='https://d3pwz8qrais8b7.cloudfront.net/portal-wyden/public/custom-uploads/fn-0006-18_-_logo_wyden_unimetrocamp-01.png'
         alt='Logotipo Unimetrocamp'
         id='logo'
-        style={{ width: "33%" }}
+        style={{ width: "30%" }}
       />
 
       {/*CADASTRO*/}
@@ -224,14 +225,14 @@ function App() {
                         >
                           <option>Escolha uma opção</option>
                           <option
-                            selected={
+                            select={
                               userDetails.genero == "Feminino" ? "selected" : ""
                             }
                           >
                             Feminino
                           </option>
                           <option
-                            selected={
+                            select={
                               userDetails.genero == "Masculino"
                                 ? "selected"
                                 : ""
@@ -261,9 +262,9 @@ function App() {
                         className='form-control'
                         placeholder='CEP'
                         style={{ marginBottom: 8 }}
-                        onBlur={mudancaChange}
                         value={userDetails.cep}
-                        onChange={(e) => (userDetails.cep = e.target.value)}
+                        onChange={mudancaChange}
+                        onBlur={() => obterDadosCep(valorInputCEP)}
                       />
                       <label htmlFor='Rua'>Rua:</label>
                       <input
@@ -272,7 +273,6 @@ function App() {
                         placeholder='Rua'
                         className='form-control'
                         value={userDetails.rua}
-                        onChange={(e) => (userDetails.rua = e.target.value)}
                         style={{ marginBottom: 8 }}
                       />
                       <label htmlFor='Bairro'>Bairro:</label>
@@ -599,8 +599,8 @@ function App() {
           </thead>
           <tbody id='tdb'>
             {users &&
-              users.map((user) => (
-                <tr>
+              users.map((user, index) => (
+                <tr key={index}>
                   <td>{user._id}</td>
                   <td>{user.nome}</td>
                   <td>{user.sobrenome}</td>
@@ -610,7 +610,7 @@ function App() {
                   <td>
                     <button
                       type='button'
-                      class='bi bi-pencil-square'
+                      className='bi bi-pencil-square'
                       onClick={() => userGetDetails(user._id)}
                       style={{border: "none", background: "transparent"}}
                     ></button>

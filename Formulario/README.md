@@ -1,11 +1,4 @@
-# **AV1 - Desenvolvimento de Sistema Web Frontend**
-
-## **GRUPO**
-- Alefe Guimel Vieira de Lacerda
-- Beatriz de Souza Nunes
-- Bianca Vieira
-- Isabella Gomes da Silva 
-- Marcela Collin Pedroso
+# **Desenvolvimento de Sistema Web Frontend e Backend**
 
 ## **PROJETO**
 Desenvolvemos um formulário de cadastro de uma e-commerce. 
