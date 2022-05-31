@@ -40,7 +40,7 @@ function App() {
   const [valorInputCEP, setValorInputCEP] = useState();
   function mudancaChange(event) {
     setValorInputCEP(event.target.value);
-    userDetails.cep = event.target.value
+    userDetails.cep = event.target.value;
   }
 
   const putUser = async function () {
@@ -222,6 +222,8 @@ function App() {
                           id='inputGen'
                           className='form-select'
                           style={{ marginBottom: 8 }}
+                          value={userDetails.genero}
+                          onChange={(e) => userDetails.genero = e.target.value}
                         >
                           <option>Escolha uma opção</option>
                           <option
@@ -445,10 +447,15 @@ function App() {
                         <select
                           id='inputGeneroRemove'
                           className='form-select'
-                          style={{ marginBottom: 8, pointerEvents: "none", touchAction: "none", background: "#E9ECEF" }}
+                          style={{
+                            marginBottom: 8,
+                            pointerEvents: "none",
+                            touchAction: "none",
+                            background: "#E9ECEF",
+                          }}
                           value={deleteDetails.genero}
-                          tabIndex="-1" 
-                          aria-disabled="true"
+                          tabIndex='-1'
+                          aria-disabled='true'
                         >
                           <option>Escolha uma opção</option>
                           <option>Feminino</option>
@@ -535,7 +542,14 @@ function App() {
                       >
                         Data de nascimento:
                       </label>
-                      <input type='date' id='inputDateRemove' value={deleteDetails.date} style={{pointerEvents: "none", touchAction: "none"}} readOnly /> <br />
+                      <input
+                        type='date'
+                        id='inputDateRemove'
+                        value={deleteDetails.date}
+                        style={{ pointerEvents: "none", touchAction: "none" }}
+                        readOnly
+                      />{" "}
+                      <br />
                       <div
                         className='button'
                         style={{ marginBottom: 10, marginTop: 10 }}
@@ -612,13 +626,13 @@ function App() {
                       type='button'
                       className='bi bi-pencil-square'
                       onClick={() => userGetDetails(user._id)}
-                      style={{border: "none", background: "transparent"}}
+                      style={{ border: "none", background: "transparent" }}
                     ></button>
                     <button
                       type='button'
                       className='bi bi-trash3-fill'
                       onClick={() => userDeleteDetails(user._id)}
-                      style={{border: "none", background: "transparent"}}
+                      style={{ border: "none", background: "transparent" }}
                     ></button>
                   </td>
                 </tr>
