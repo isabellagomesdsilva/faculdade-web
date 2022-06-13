@@ -337,9 +337,7 @@ function App() {
                       />
                       <label
                         style={{
-                          marginTop: 13,
-                          marginBottom: 12,
-                          marginRight: 10,
+                          marginBottom: 8
                         }}
                         htmlFor='date'
                       >
@@ -553,9 +551,7 @@ function App() {
                       />
                       <label
                         style={{
-                          marginTop: 13,
-                          marginBottom: 12,
-                          marginRight: 10,
+                          marginBottom: 8
                         }}
                         htmlFor='date'
                       >
