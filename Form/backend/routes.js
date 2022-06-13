@@ -1,4 +1,4 @@
-const { getAllClients, create, put, deleteClient, getOneClient } = require("../controller/client");
+const { getAllClients, create, put, deleteClient, getOneClient } = require("./controller");
 
 module.exports = (app) => {
   app.get("/client/all", getAllClients);

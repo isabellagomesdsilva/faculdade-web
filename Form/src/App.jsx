@@ -89,7 +89,7 @@ export default function App() {
     }
   };
   return (
-    <div>
+    <div style={{backgroundColor: "#212529"}}>
       <div className='Cadastro'>
         <div
           id='buttonCad'

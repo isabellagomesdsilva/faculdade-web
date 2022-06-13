@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const routes = require("./routes/client");
+const routes = require("./routes");
 
 routes(app);
 

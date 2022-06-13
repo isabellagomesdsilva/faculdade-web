@@ -4,7 +4,7 @@ const {
   getOne,
   put,
   remove
-} = require("../model/client");
+} = require("./model");
 
 exports.getAllClients = async (req, res) => {
   try {
