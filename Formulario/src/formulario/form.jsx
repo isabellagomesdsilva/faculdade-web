@@ -3,26 +3,39 @@ import axios from "axios";
 import { obterDadosCep } from "./funcoes_form";
 
 export function Formulario() {
-  async function cadastrar(){
-    let nome = document.querySelector("#name").value
-    let sobrenome = document.querySelector("#sobrenome").value
-    let cpf = document.querySelector("#CPF").value
-    let genero = document.querySelector("#genero").value
-    let telefone = document.querySelector("#tel").value
-    let cep = document.querySelector("#CEP").value
-    let rua = document.querySelector("#Rua").value
-    let bairro = document.querySelector("#Bairro").value
-    let cidade = document.querySelector("#Cidade").value
-    let numero= document.querySelector("#numero").value
-    let email = document.querySelector('#mail').value
-    let date= document.querySelector("#date").value
-    
-    const user = {nome, sobrenome, cpf, genero, telefone, cep, rua, bairro, cidade, numero, email, date}
-    const response = await axios.post("http://localhost:7000/user", user)
-    if (response.status==201){
-      return response.status
-    }else{
-      return null
+  async function cadastrar() {
+    let nome = document.querySelector("#name").value;
+    let sobrenome = document.querySelector("#sobrenome").value;
+    let cpf = document.querySelector("#CPF").value;
+    let genero = document.querySelector("#genero").value;
+    let telefone = document.querySelector("#tel").value;
+    let cep = document.querySelector("#CEP").value;
+    let rua = document.querySelector("#Rua").value;
+    let bairro = document.querySelector("#Bairro").value;
+    let cidade = document.querySelector("#Cidade").value;
+    let numero = document.querySelector("#numero").value;
+    let email = document.querySelector("#mail").value;
+    let date = document.querySelector("#date").value;
+
+    const user = {
+      nome,
+      sobrenome,
+      cpf,
+      genero,
+      telefone,
+      cep,
+      rua,
+      bairro,
+      cidade,
+      numero,
+      email,
+      date,
+    };
+    const response = await axios.post("http://localhost:7000/user", user);
+    if (response.status == 201) {
+      return response.status;
+    } else {
+      return null;
     }
   }
 
@@ -36,7 +49,7 @@ export function Formulario() {
         className='container-fluid'
         style={{
           justifyContent: "center",
-          display: "flex",          
+          display: "flex",
         }}
       >
         <div className='col-md-9'>
@@ -58,7 +71,7 @@ export function Formulario() {
           />
           <label htmlFor='CPF'>CPF:</label>
           <input
-            type='text'
+            type='number'
             id='CPF'
             pattern='\d{11}'
             className='form-control'
@@ -136,12 +149,17 @@ export function Formulario() {
             placeholder='E-mail'
             style={{ marginBottom: 8 }}
           />
-          <label style={{ marginTop: 13, marginBottom: 12, marginRight: 10 }} htmlFor='date'>
-            Data de nascimento:
-          </label>
-          <input type='date' id='date' /> <br />
+          <label for='date'>Data de Nascimento:</label>
+          <input id='date' class='form-control' type='date' />
           <div className='button' style={{ marginBottom: 10, marginTop: 10 }}>
-            <button  onClick={async() => {await cadastrar()=="201"}} type='submit' className='btn btn-primary' style={{marginRight: 4}}>
+            <button
+              onClick={async () => {
+                (await cadastrar()) == "201";
+              }}
+              type='submit'
+              className='btn btn-primary'
+              style={{ marginRight: 4 }}
+            >
               Enviar
             </button>
             <button type='reset' className='btn btn-danger'>

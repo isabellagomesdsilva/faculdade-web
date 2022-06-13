@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Formulario } from "./formulario/form";
-import { obterDadosCep } from "./formulario/funcoes_form";
 
 function App() {
   const [users, setUsers] = useState();
@@ -38,10 +37,6 @@ function App() {
   };
 
   const [valorInputCEP, setValorInputCEP] = useState();
-  function mudancaChange(event) {
-    setValorInputCEP(event.target.value);
-    userDetails.cep = event.target.value;
-  }
 
   const putUser = async function () {
     let url = `http://localhost:7000/user/${userDetails._id}`;
@@ -71,6 +66,29 @@ function App() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const atualizarDadosCep = async function (cep) {
+    console.log(cep);
+    var xhr;
+    if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        const dadosCep = JSON.parse(xhr.responseText);
+
+        userDetails.rua = dadosCep.logradouro;
+        userDetails.bairro = dadosCep.bairro;
+        userDetails.cidade = dadosCep.localidade;
+      }
+    };
+    xhr.open("GET", `https://viacep.com.br/ws/${cep}/json/`, true);
+    xhr.setRequestHeader("Accept", "*/*");
+    xhr.send(null);
   };
 
   return (
@@ -223,7 +241,9 @@ function App() {
                           className='form-select'
                           style={{ marginBottom: 8 }}
                           value={userDetails.genero}
-                          onChange={(e) => userDetails.genero = e.target.value}
+                          onChange={(e) =>
+                            (userDetails.genero = e.target.value)
+                          }
                         >
                           <option>Escolha uma opção</option>
                           <option
@@ -265,8 +285,8 @@ function App() {
                         placeholder='CEP'
                         style={{ marginBottom: 8 }}
                         value={userDetails.cep}
-                        onChange={mudancaChange}
-                        onBlur={() => obterDadosCep(valorInputCEP)}
+                        onChange={(e) => (userDetails.cep = e.target.value)}
+                        onBlur={() => atualizarDadosCep(userDetails.cep)}
                       />
                       <label htmlFor='Rua'>Rua:</label>
                       <input
@@ -285,7 +305,6 @@ function App() {
                         className='form-control'
                         style={{ marginBottom: 8 }}
                         value={userDetails.bairro}
-                        onChange={(e) => (userDetails.bairro = e.target.value)}
                       />
                       <label htmlFor='Cidade'>Cidade:</label>
                       <input
@@ -295,7 +314,6 @@ function App() {
                         className='form-control'
                         style={{ marginBottom: 8 }}
                         value={userDetails.cidade}
-                        onChange={(e) => (userDetails.cidade = e.target.value)}
                       />
                       <label htmlFor='Num'>Número:</label>
                       <input
@@ -330,6 +348,7 @@ function App() {
                       <input
                         type='date'
                         id='inputDate'
+                        className='form-control'
                         value={userDetails.date}
                         onChange={(e) => (userDetails.date = e.target.value)}
                       />
@@ -544,6 +563,7 @@ function App() {
                       </label>
                       <input
                         type='date'
+                        className='form-control'
                         id='inputDateRemove'
                         value={deleteDetails.date}
                         style={{ pointerEvents: "none", touchAction: "none" }}
@@ -559,7 +579,7 @@ function App() {
                             (await deleteUsers()) == "200";
                           }}
                           type='submit'
-                          className='btn btn-primary'
+                          className='btn btn-danger'
                           style={{ marginRight: 4 }}
                           id='buttonDelete'
                         >
