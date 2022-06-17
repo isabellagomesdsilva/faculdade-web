@@ -1,20 +1,49 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import Lupa from "./assets/Lupa.png";
 import { Formulario } from "./formulario/form";
 
 function App() {
   const [users, setUsers] = useState();
+  const [usuarios, setUsuarios] = useState("empty");
+  const [search, setSearch] = useState();
   const [userDetails, setUserDetails] = useState();
   const [deleteDetails, setDeleteDetails] = useState();
 
   useEffect(async () => {
     async function usersGet() {
-      const { data } = await axios("http://localhost:7000/user/all");
+      const { data } = await axios.get("http://localhost:7000/user/all");
       setUsers(data.data);
     }
 
     await usersGet();
   });
+
+  const onSearch = async (nome, response) => {
+    await axios
+      .get(`http://localhost:7000/user/?nome=${nome}`)
+      .then((response) => {
+        console.log("Response",response)
+        setUsuarios([response.data]);
+      })
+      .catch(function erro(error) {
+        if (error.response.data == null) {
+          console.log("PESQUISA INVÁLIDA");
+          setUsuarios("notFound");
+        }
+      });
+  };
+
+  async function inputSearch(e) {
+    setSearch(e.target.value);
+    if (e.target.value.length == 0 ) {
+      setUsuarios("empty");
+    }
+    }
+
+  const pesquisa = async () => {
+    await onSearch(search);
+  };
 
   const userGetDetails = async function (id) {
     const { data } = await axios.get(`http://localhost:7000/user/${id}`);
@@ -35,8 +64,6 @@ function App() {
     );
     removeModal.show();
   };
-
-  const [valorInputCEP, setValorInputCEP] = useState();
 
   const putUser = async function () {
     let url = `http://localhost:7000/user/${userDetails._id}`;
@@ -100,61 +127,49 @@ function App() {
         style={{ width: "30%" }}
       />
 
-      {/*CADASTRO*/}
-      <div
-        id='buttonCad'
-        style={{
-          display: "flex",
-          flexDirection: "row-reverse",
-          marginRight: "0.5em",
-          marginBottom: "0.2em",
-        }}
-      >
-        <button
-          type='button'
-          className='btn btn-success'
-          data-bs-toggle='modal'
-          data-bs-target='#staticBackdrop'
+      <div className='barraPesquisa' style={{ width: "91%", margin: "2%" }}>
+        <label
+          className='labelSearch'
+          style={{ display: "flex", width: "100%" }}
         >
-          Cadastrar
-        </button>
-      </div>
-      <div
-        className='modal fade'
-        id='staticBackdrop'
-        data-bs-backdrop='static'
-        data-bs-keyboard='false'
-        tabIndex='-1'
-        aria-labelledby='staticBackdropLabel'
-        aria-hidden='true'
-      >
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h3 className='modal-title' id='staticBackdropLabel'>
-                Cadastro
-              </h3>
-              <button
-                type='button'
-                className='btn-close'
-                data-bs-dismiss='modal'
-                aria-label='Close'
-              ></button>
-            </div>
-            <div className='modal-body'>
-              <Formulario />
-            </div>
-            <div className='modal-footer'>
-              <button
-                type='button'
-                className='btn btn-secondary'
-                data-bs-dismiss='modal'
-              >
-                Sair
-              </button>
-            </div>
-          </div>
-        </div>
+          <img
+            src={Lupa}
+            alt=''
+            className='iconLupa'
+            style={{ margin: "0.8%", position: "absolute" }}
+          />
+          <input
+            type='text'
+            name='name'
+            className='inputSearch'
+            style={{
+              width: "75%",
+              borderStyle: "none",
+              backgroundColor: "#f4f4f4",
+              height: "7vh",
+              marginRight: "3%",
+              boxShadow: "0px 6px 8px rgb(0 0 0 / 7%)",
+              borderRadius: "27px",
+              paddingLeft: "8%",
+            }}
+            placeholder='Buscar o nome de um usuário'
+            onChange={inputSearch}
+          />
+          <button
+            className='buttonSearch'
+            onClick={pesquisa}
+            style={{
+              width: "13%",
+              borderRadius: "25px",
+              borderStyle: "none",
+              backgroundColor: "#4F87C7",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Buscar
+          </button>
+        </label>
       </div>
 
       {/* EDITAR */}
@@ -201,15 +216,16 @@ function App() {
                         value={userDetails._id}
                         readOnly
                       />
-                      <label htmlFor='name'>Nome:</label>
+                      <label htmlFor="validationCustom01" className="form-label">Nome:</label>
                       <input
                         type='text'
-                        id='inputName'
+                        id="validationCustom01"
                         className='form-control'
                         placeholder='Nome'
                         value={userDetails.nome}
                         onChange={(e) => (userDetails.nome = e.target.value)}
                         style={{ marginBottom: 8 }}
+                        required
                       />
                       <label htmlFor='name'>Sobrenome:</label>
                       <input
@@ -222,6 +238,7 @@ function App() {
                           (userDetails.sobrenome = e.target.value)
                         }
                         style={{ marginBottom: 8 }}
+                        required
                       />
                       <label htmlFor='CPF'>CPF:</label>
                       <input
@@ -233,11 +250,13 @@ function App() {
                         value={userDetails.cpf}
                         onChange={(e) => (userDetails.cpf = e.target.value)}
                         style={{ marginBottom: 8 }}
+                        required
                       />
                       <div>
                         <label htmlFor='name'>Gênero:</label>
                         <select
                           id='inputGen'
+                          required
                           className='form-select'
                           style={{ marginBottom: 8 }}
                           value={userDetails.genero}
@@ -269,6 +288,7 @@ function App() {
                         type='tel'
                         id='inputTel'
                         className='form-control'
+                        required
                         placeholder='Telefone'
                         value={userDetails.telefone}
                         onChange={(e) =>
@@ -281,6 +301,7 @@ function App() {
                         type='text'
                         id='inputCEP'
                         pattern='\d{8}'
+                        required
                         className='form-control'
                         placeholder='CEP'
                         style={{ marginBottom: 8 }}
@@ -319,6 +340,7 @@ function App() {
                       <input
                         type='number'
                         id='inputNum'
+                        required
                         className='form-control'
                         placeholder='Número'
                         value={userDetails.numero}
@@ -329,6 +351,7 @@ function App() {
                       <input
                         type='email'
                         id='inputMail'
+                        required
                         className='form-control'
                         placeholder='E-mail'
                         value={userDetails.email}
@@ -337,7 +360,7 @@ function App() {
                       />
                       <label
                         style={{
-                          marginBottom: 8
+                          marginBottom: 8,
                         }}
                         htmlFor='date'
                       >
@@ -345,6 +368,7 @@ function App() {
                       </label>
                       <input
                         type='date'
+                        required
                         id='inputDate'
                         className='form-control'
                         value={userDetails.date}
@@ -551,7 +575,7 @@ function App() {
                       />
                       <label
                         style={{
-                          marginBottom: 8
+                          marginBottom: 8,
                         }}
                         htmlFor='date'
                       >
@@ -628,33 +652,122 @@ function App() {
             </tr>
           </thead>
           <tbody id='tdb'>
-            {users &&
-              users.map((user, index) => (
-                <tr key={index}>
-                  <td>{user._id}</td>
-                  <td>{user.nome}</td>
-                  <td>{user.sobrenome}</td>
-                  <td>{user.cpf}</td>
-                  <td>{user.email}</td>
-                  <td>{user.date}</td>
-                  <td>
-                    <button
-                      type='button'
-                      className='bi bi-pencil-square'
-                      onClick={() => userGetDetails(user._id)}
-                      style={{ border: "none", background: "transparent" }}
-                    ></button>
-                    <button
-                      type='button'
-                      className='bi bi-trash3-fill'
-                      onClick={() => userDeleteDetails(user._id)}
-                      style={{ border: "none", background: "transparent" }}
-                    ></button>
-                  </td>
-                </tr>
-              ))}
+            {usuarios == "notFound" ? (
+              <div>
+                <h4 className='notFound'>Usuário não encontrado</h4>
+              </div>
+            ) : usuarios != "empty" ? (
+              usuarios.map((usuarios, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{usuarios._id}</td>
+                    <td>{usuarios.nome}</td>
+                    <td>{usuarios.sobrenome}</td>
+                    <td>{usuarios.cpf}</td>
+                    <td>{usuarios.email}</td>
+                    <td>{usuarios.date}</td>
+                    <td>
+                      <button
+                        type='button'
+                        className='bi bi-pencil-square'
+                        onClick={() => userGetDetails(usuarios._id)}
+                        style={{ border: "none", background: "transparent" }}
+                      ></button>
+                      <button
+                        type='button'
+                        className='bi bi-trash3-fill'
+                        onClick={() => userDeleteDetails(usuarios._id)}
+                        style={{ border: "none", background: "transparent" }}
+                      ></button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              users?.map((usuarios, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{usuarios._id}</td>
+                    <td>{usuarios.nome}</td>
+                    <td>{usuarios.sobrenome}</td>
+                    <td>{usuarios.cpf}</td>
+                    <td>{usuarios.email}</td>
+                    <td>{usuarios.date}</td>
+                    <td>
+                      <button
+                        type='button'
+                        className='bi bi-pencil-square'
+                        onClick={() => userGetDetails(usuarios._id)}
+                        style={{ border: "none", background: "transparent" }}
+                      ></button>
+                      <button
+                        type='button'
+                        className='bi bi-trash3-fill'
+                        onClick={() => userDeleteDetails(usuarios._id)}
+                        style={{ border: "none", background: "transparent" }}
+                      ></button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
+      </div>
+
+      {/*CADASTRO*/}
+      <div
+        id='buttonCad'
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          type='button'
+          className='btn btn-success'
+          data-bs-toggle='modal'
+          data-bs-target='#staticBackdrop'
+        >
+          Cadastrar
+        </button>
+      </div>
+      <div
+        className='modal fade'
+        id='staticBackdrop'
+        data-bs-backdrop='static'
+        data-bs-keyboard='false'
+        tabIndex='-1'
+        aria-labelledby='staticBackdropLabel'
+        aria-hidden='true'
+      >
+        <div className='modal-dialog'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h3 className='modal-title' id='staticBackdropLabel'>
+                Cadastro
+              </h3>
+              <button
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
+              ></button>
+            </div>
+            <div className='modal-body'>
+              <Formulario />
+            </div>
+            <div className='modal-footer'>
+              <button
+                type='button'
+                className='btn btn-secondary'
+                data-bs-dismiss='modal'
+              >
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

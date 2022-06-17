@@ -60,6 +60,7 @@ export function Formulario() {
             className='form-control'
             placeholder='Nome'
             style={{ marginBottom: 8 }}
+            required
           />
           <label htmlFor='name'>Sobrenome:</label>
           <input
@@ -68,6 +69,7 @@ export function Formulario() {
             className='form-control'
             placeholder='Sobrenome'
             style={{ marginBottom: 8 }}
+            required
           />
           <label htmlFor='CPF'>CPF:</label>
           <input
@@ -77,6 +79,7 @@ export function Formulario() {
             className='form-control'
             placeholder='CPF'
             style={{ marginBottom: 8 }}
+            required
           />
           <div>
             <label htmlFor='name'>Gênero:</label>
@@ -97,6 +100,7 @@ export function Formulario() {
             className='form-control'
             placeholder='Telefone'
             style={{ marginBottom: 8 }}
+            required
           />
           <label htmlFor='CEP'>CEP:</label>
           <input
@@ -108,6 +112,7 @@ export function Formulario() {
             style={{ marginBottom: 8 }}
             onChange={mudancaChange}
             onBlur={() => obterDadosCep(valorInputCEP)}
+            required
           />
           <label htmlFor='Rua'>Rua:</label>
           <input
@@ -140,6 +145,7 @@ export function Formulario() {
             className='form-control'
             placeholder='Número'
             style={{ marginBottom: 8 }}
+            required
           />
           <label htmlFor='mail'>E-mail:</label>
           <input
@@ -148,9 +154,10 @@ export function Formulario() {
             className='form-control'
             placeholder='E-mail'
             style={{ marginBottom: 8 }}
+            required
           />
-          <label for='date'>Data de Nascimento:</label>
-          <input id='date' class='form-control' type='date' />
+          <label htmlFor='date'>Data de Nascimento:</label>
+          <input id='date' className='form-control' type='date' required/>
           <div className='button' style={{ marginBottom: 10, marginTop: 10 }}>
             <button
               onClick={async () => {

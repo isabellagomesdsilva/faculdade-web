@@ -23,6 +23,12 @@ exports.getOneUser = async (id) => {
   return { data, status: 200 };
 };
 
+exports.getName = async (nome) => {
+  const  collection  = await connectMongodb("faculdade_web", "web");
+  const data = await collection.findOne({ nome: nome });
+  return { data, status: 200 };
+};
+
 exports.createUser = async ({
   nome,
   sobrenome,
